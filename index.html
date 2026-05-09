@@ -722,7 +722,7 @@ window.setFilter = function(k) { filterActive = (filterActive === k) ? "tous" : 
 function makeTile(m) {
   var cls = getCls(m), label = getLabel(m);
   var mL = m.mission ? (MISSIONS[m.mission]||m.mission) : "";
-  var tL = (m.depart||m.arrivee) ? esc(m.depart||"?")+" ->; "+esc(m.arrivee||"?") : "";
+  var tL = (m.depart||m.arrivee) ? esc(m.depart||"?")+" -> "+esc(m.arrivee||"?") : "";
   var mStr = mL + (tL ? "<br>"+tL : "");
   var hasRaison = m.status !== "dispo" && m.raison;
   var eqRows = "";
