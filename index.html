@@ -640,14 +640,19 @@ var DEF = [
 
 var _moyens = JSON.parse(JSON.stringify(DEF));
 var _bases = [];
+var _agents = {
+  medecins:["Dr Martin","Dr Dupont","Dr Bernard","Dr Leroy"],
+  ides:["Dupuis","Moreau","Laurent","Simon"],
+  ambulanciers:["Thomas","Robert","Petit","Durand"],
+  lieux:["CHU Bourges","CHU Tours","CHU Clermont","CHU Orléans","CHU Limoges","CHRU Poitiers","Hôpital Vierzon","Hôpital St-Amand"]
+};
 var filterActive = "tous";
 var editingId = null, curS = "dispo", curI = "mecanique", curMission = "";
 
 /* DATA */
 window.loadData = function() {
   /* Données chargées depuis Firebase uniquement */
-  var svb = localStorage.getItem("smur18_bases");
-  if (svb) { try { _bases = JSON.parse(svb); return; } catch(e) {} }
+  /* Bases chargées depuis Firebase */
   initBases();
 }
 function initBases() {
@@ -655,18 +660,22 @@ function initBases() {
   _moyens.forEach(function(m) { if (!seen[m.base]) { seen[m.base] = 1; _bases.push({id:m.base, nom:m.base}); } });
 }
 window.saveData = function() { /* Firebase only — see initFirebase */ }
-function saveBases() { localStorage.setItem("smur18_bases", JSON.stringify(_bases)); }
-function getAgents() {
-  var sv = localStorage.getItem("smur18_agents");
-  if (sv) { try { return JSON.parse(sv); } catch(e) {} }
-  return {
-    medecins:["Dr Martin","Dr Dupont","Dr Bernard","Dr Leroy"],
-    ides:["Dupuis","Moreau","Laurent","Simon"],
-    ambulanciers:["Thomas","Robert","Petit","Durand"],
-    lieux:["CHU Bourges","CHU Tours","CHU Clermont","CHU Orléans","CHU Limoges","CHRU Poitiers","Hôpital Vierzon","Hôpital St-Amand"]
-  };
+function saveBases() {
+  if (window._fbBasesRef && window._fbSet) {
+    window._fbSet(window._fbBasesRef, _bases);
+  } else {
+    localStorage.setItem("smur18_bases", JSON.stringify(_bases));
+  }
 }
-function saveAgents(a) { localStorage.setItem("smur18_agents", JSON.stringify(a)); }
+function getAgents() { return _agents; }
+function saveAgents(a) {
+  _agents = a;
+  if (window._fbAgentsRef && window._fbSet) {
+    window._fbSet(window._fbAgentsRef, a);
+  } else {
+    localStorage.setItem("smur18_agents", JSON.stringify(a));
+  }
+}
 function esc(s) { return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 function slug(s) { return s.toLowerCase().replace(/\s+/g,"-").replace(/[^a-z0-9-]/g,""); }
 function getCls(m) { return m.status !== "indispo" ? (SCFG[m.status]||{cls:"c-maint"}).cls : (ICFG[m.indispo_type||"autre"]||ICFG.autre).cls; }
@@ -1220,6 +1229,26 @@ window.initFirebase = function() {
         if (snap.val() === true) { setBadge('live'); }
         else { setBadge('offline'); }
       });
+
+      /* Listener agents */
+      var agentsRef = m2.ref(db, "smur18/agents");
+      window._fbAgentsRef = agentsRef;
+      window._fbSet = m2.set;
+      m2.onValue(agentsRef, function(snap) {
+        var d = snap.val();
+        if (d) { _agents = d; refreshDatalist(); }
+        else { m2.set(agentsRef, _agents); }
+      });
+
+      /* Listener bases */
+      var basesRef = m2.ref(db, "smur18/bases");
+      window._fbBasesRef = basesRef;
+      m2.onValue(basesRef, function(snap) {
+        var d = snap.val();
+        if (d && Array.isArray(d)) { _bases = d; }
+        else if (d) { _bases = Object.values(d); }
+      });
+
       m2.onValue(ref, function(snap) {
         var d = snap.val();
         if (d) { _moyens = Object.values(d).sort(function(a,b) { return (a.ordre||0)-(b.ordre||0); }); }
