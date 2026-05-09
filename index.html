@@ -370,8 +370,8 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--txt);font-fami
 <div class="app">
   <div class="topbar">
     <span class="topbar-title">Synoptique SMUR — SAMU 18</span>
-    <button class="btn-manage" onclick="openManage()">⚙ Gérer</button>
-    <button class="btn-help-top" onclick="openHelp()">? Aide</button>
+    <button class="btn-manage" onclick="openManage()"> Gérer</button>
+    <button class="btn-help-top" onclick="openHelp()">Aide</button>
     <button class="btn-manage" onclick="openPerso()" style="border-color:rgba(156,39,176,.5);background:rgba(156,39,176,.1);color:#ba68c8;">👥 Personnel</button>
     <button class="btn-test-briefing" onclick="openBriefing()" title="Tester le briefing"> Test</button>
     <div id="fb" class="fb-connecting"><span id="fb-dot"></span><span id="fb-txt">CONNEXION</span></div>
@@ -536,8 +536,8 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--txt);font-fami
         <span class="help-desc">Ouvre le panneau de gestion. Permet d'ajouter, renommer ou supprimer des engins et des bases/sites.</span>
       </div>
       <div class="help-row">
-        <span class="help-key">⠿ Glisser</span>
-        <span class="help-desc">Maintenir le ⠿ et glisser pour réordonner les véhicules. L'ordre est reflété dans le synoptique après avoir cliqué Enregistrer.</span>
+        <span class="help-key">. Glisser</span>
+        <span class="help-desc">Maintenir le . et glisser pour réordonner les véhicules. L'ordre est reflété dans le synoptique après avoir cliqué Enregistrer.</span>
       </div>
       <div class="help-row">
         <span class="help-key">Bases</span>
@@ -579,7 +579,7 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--txt);font-fami
       </div>
     </div>
     <div class="ms-sect">
-      <div class="ms-title">Engins — glisser ⠿ pour réordonner</div>
+      <div class="ms-title">Engins — glisser . pour réordonner</div>
       <div class="e-list" id="e-list"></div>
       <div class="add-row" style="flex-wrap:wrap;gap:6px;">
         <input type="text" id="new-e-nom" placeholder="Nom..." style="min-width:120px;">
@@ -922,7 +922,7 @@ function renderManage() {
   document.getElementById("e-list").innerHTML = _moyens.map(function(m) {
     var opts = _bases.map(function(b) { return '<option value="'+esc(b.nom)+'"'+(b.nom===m.base?" selected":"")+'>'+esc(b.nom)+'</option>'; }).join("");
     return '<div class="e-row" data-id="'+m.id+'" draggable="true">'
-      +'<span class="drag-handle">⠿</span>'
+      +'<span class="drag-handle"></span>'
       +'<input class="e-nom" data-id="'+m.id+'" value="'+esc(m.nom)+'" placeholder="Nom">'
       +'<select class="e-base" data-id="'+m.id+'">'+opts+'</select>'
       +'<button class="btn-x" onclick="delEngin(\''+m.id+'\')">×</button></div>';
