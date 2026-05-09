@@ -373,7 +373,7 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--txt);font-fami
     <button class="btn-manage" onclick="openManage()">⚙ Gérer</button>
     <button class="btn-help-top" onclick="openHelp()">? Aide</button>
     <button class="btn-manage" onclick="openPerso()" style="border-color:rgba(156,39,176,.5);background:rgba(156,39,176,.1);color:#ba68c8;">👥 Personnel</button>
-    <button class="btn-test-briefing" onclick="openBriefing()" title="Tester le briefing">⏰ Test</button>
+    <button class="btn-test-briefing" onclick="openBriefing()" title="Tester le briefing"> Test</button>
     <div id="fb" class="fb-connecting"><span id="fb-dot"></span><span id="fb-txt">CONNEXION</span></div>
   </div>
   <div class="statsbar" id="statsbar"></div>
@@ -381,7 +381,7 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--txt);font-fami
   <div class="tiles-zone" id="tiles-zone"></div>
   <div class="footer">
     <div class="footer-copy">
-      <div class="footer-logo">👨‍💻</div>
+      <div class="footer-logo"></div>
       © 2026 Matéo Calléja — SAMU 18
     </div>
   </div>
@@ -441,17 +441,17 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--txt);font-fami
 <!-- BRIEFING QUOTIDIEN -->
 <div class="briefing-overlay" id="ov-briefing">
   <div class="briefing-card">
-    <div class="briefing-icon">🌅</div>
+    <div class="briefing-icon"></div>
     <div class="briefing-title">Briefing du matin</div>
     <div class="briefing-time" id="briefing-date"></div>
     <div class="briefing-subtitle">
       Il est l'heure de faire le point sur l'état de vos engins avant la prise de service.
     </div>
     <div class="briefing-checklist">
-      <div class="briefing-check"><span class="briefing-check-icon">🚑</span><span>Vérifier la disponibilité de chaque véhicule</span></div>
-      <div class="briefing-check"><span class="briefing-check-icon">🔧</span><span>Signaler tout problème mécanique ou panne</span></div>
-      <div class="briefing-check"><span class="briefing-check-icon">⛽</span><span>Noter les engins partis faire le plein</span></div>
-      <div class="briefing-check"><span class="briefing-check-icon">👥</span><span>Mettre à jour les équipages en place</span></div>
+      <div class="briefing-check"><span class="briefing-check-icon"></span><span>Vérifier la disponibilité de chaque véhicule</span></div>
+      <div class="briefing-check"><span class="briefing-check-icon"></span><span>Signaler tout problème mécanique ou panne</span></div>
+      <div class="briefing-check"><span class="briefing-check-icon"></span><span>Noter les engins partis faire le plein</span></div>
+      <div class="briefing-check"><span class="briefing-check-icon"></span><span>Mettre à jour les équipages en place</span></div>
     </div>
     <div class="briefing-actions">
       <button class="briefing-btn-primary" onclick="closeBriefing(true)">✓ Commencer la mise à jour</button>
@@ -466,9 +466,9 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--txt);font-fami
     <div class="handle"></div>
     <div style="font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:1rem;">Gestion du personnel</div>
     <div class="perso-tabs">
-      <button class="ptab ptab-active-med" id="ptab-med" onclick="switchPersoTab('med')">👨‍⚕️ Médecins</button>
-      <button class="ptab" id="ptab-ide"   onclick="switchPersoTab('ide')">💉 IDE</button>
-      <button class="ptab" id="ptab-amb"   onclick="switchPersoTab('amb')">🚑 Ambulanciers</button>
+      <button class="ptab ptab-active-med" id="ptab-med" onclick="switchPersoTab('med')"> Médecins</button>
+      <button class="ptab" id="ptab-ide"   onclick="switchPersoTab('ide')"> IDE</button>
+      <button class="ptab" id="ptab-amb"   onclick="switchPersoTab('amb')">Ambulanciers</button>
     </div>
     <div class="perso-list" id="perso-list"></div>
     <div class="perso-add-row">
@@ -726,9 +726,9 @@ function makeTile(m) {
   var mStr = mL + (tL ? "<br>"+tL : "");
   var hasRaison = m.status !== "dispo" && m.raison;
   var eqRows = "";
-  if (m.medecin)     eqRows += '<div class="t-eq-row"><span class="t-eq-ico">👨‍⚕️</span><span class="t-eq-name">'+esc(m.medecin)+'</span></div>';
-  if (m.ide)         eqRows += '<div class="t-eq-row"><span class="t-eq-ico">💉</span><span class="t-eq-name">'+esc(m.ide)+'</span></div>';
-  if (m.ambulancier) eqRows += '<div class="t-eq-row"><span class="t-eq-ico">🚑</span><span class="t-eq-name">'+esc(m.ambulancier)+'</span></div>';
+  if (m.medecin)     eqRows += '<div class="t-eq-row"><span class="t-eq-ico"></span><span class="t-eq-name">'+esc(m.medecin)+'</span></div>';
+  if (m.ide)         eqRows += '<div class="t-eq-row"><span class="t-eq-ico"></span><span class="t-eq-name">'+esc(m.ide)+'</span></div>';
+  if (m.ambulancier) eqRows += '<div class="t-eq-row"><span class="t-eq-ico"></span><span class="t-eq-name">'+esc(m.ambulancier)+'</span></div>';
   var h2 = '<div class="tile '+cls+'" data-id="'+m.id+'">';
   h2 += '<div class="t-head"><span class="t-status">'+label+'</span>';
   if (m.retour) h2 += '<span class="t-retour">↩ '+esc(m.retour)+'</span>';
@@ -1093,9 +1093,9 @@ window.scheduleBriefingCheck = function() {
 /* PERSONNEL */
 var persoTab = "med";
 var PERSO_CFG = {
-  med: { key:"medecins",     icon:"👨‍⚕️", label:"Médecins",     cls:"ptab-active-med" },
-  ide: { key:"ides",         icon:"💉",  label:"IDE",          cls:"ptab-active-ide" },
-  amb: { key:"ambulanciers", icon:"🚑",  label:"Ambulanciers", cls:"ptab-active-amb" }
+  med: { key:"medecins",     icon:"", label:"Médecins",     cls:"ptab-active-med" },
+  ide: { key:"ides",         icon:"",  label:"IDE",          cls:"ptab-active-ide" },
+  amb: { key:"ambulanciers", icon:"",  label:"Ambulanciers", cls:"ptab-active-amb" }
 };
 
 window.openPerso = function() {
